@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Student Main Page</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+<body>
+<h2>
+Student ID:<input type="text" id="sid" value="200"><br/>
+Student Name:<input type="text" id="sname" value="Rose"><br/>
+Age:<input type="text" id="age" value="20"><br/>
+<button id="query">查詢</button>
+<button id="add">新增</button>
+<button id="update">更新</button>
+<button id="delete">刪除</button>
+
+</h2>
+
+<div id="msg"></div>
+<script>
+   function result(data){
+	   $("#msg").html(data);
+   }
+   function execute(){
+	   $.get("StudentServlet",result);
+   }
+   function update(){
+	   var id=$("#sid").val();
+	   var n=$("#sname").val();
+	   var age=$("#age").val();
+	   $.post("StudentUpdateServlet",{"sid":id,"sname":n,"age":age},result);
+   }
+  	
+   function del(){
+	   var id=$("#sid").val();
+	   $.post("StudentDeleteServlet",{"sid":id},result)
+   }
+   function insert(){
+	   var id=$("#sid").val();
+	   var n=$("#sname").val();
+	   var age=$("#age").val();
+	   $.post("StudentAddServlet",{"sid":id,"sname":n,"age":age},result);
+   }
+   function start(){
+	   $("#query").click(execute); 
+	   $("#add").click(insert);
+	   $("#delete").click(del);
+	   $("#update").click(update);
+   }
+   $(document).ready(start);
+</script>
+</body>
+</html>
